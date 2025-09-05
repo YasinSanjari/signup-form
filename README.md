@@ -62,7 +62,7 @@
 1. **کلون کردن پروژه:**
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/YasinSanjari/signup-form.git
 cd signup-form
 ```
 
