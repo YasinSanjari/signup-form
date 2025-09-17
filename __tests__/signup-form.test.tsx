@@ -212,12 +212,9 @@ describe("SignupForm", () => {
       await user.type(emailInput, "invalid-email");
       await user.click(screen.getByTestId("submit-button"));
 
-      // The form should show validation errors when submitted with invalid data
       await waitFor(
         () => {
-          // Check that the form shows validation errors (we know from other tests that this works)
-          // Since we can't easily test the specific email validation due to form validation flow,
-          // we'll verify that the form validation system is working by checking for any validation errors
+
           const form = screen.getByTestId("signup-form");
           expect(form).toBeInTheDocument();
 
@@ -388,7 +385,6 @@ describe("SignupForm", () => {
       const user = userEvent.setup();
       render(<SignupForm />);
 
-      // Test password confirmation by focusing on the password fields
       await user.type(screen.getByTestId("password-input"), "Password1!");
       await user.type(
         screen.getByTestId("confirm-password-input"),
@@ -396,10 +392,8 @@ describe("SignupForm", () => {
       );
       await user.click(screen.getByTestId("submit-button"));
 
-      // The form should show validation errors
       await waitFor(
         () => {
-          // Check that we get some validation errors (the form should fail validation)
           const errorMessages = screen.getAllByText(
             /must be|Please enter|Invalid|required/i
           );
@@ -419,7 +413,6 @@ describe("SignupForm", () => {
         "Password1!"
       );
 
-      // Fill other required fields
       await user.type(screen.getByTestId("first-name-input"), "John");
       await user.type(screen.getByTestId("last-name-input"), "Doe");
       await user.type(screen.getByTestId("email-input"), "test@example.com");
@@ -488,7 +481,7 @@ describe("SignupForm", () => {
       const user = userEvent.setup();
       render(<SignupForm />);
 
-      // Exactly 18 years old today
+          
       const today = new Date();
       const exactly18 = new Date(
         today.getFullYear() - 18,
@@ -511,7 +504,6 @@ describe("SignupForm", () => {
       const user = userEvent.setup();
       render(<SignupForm />);
 
-      // One day before turning 18
       const today = new Date();
       const oneDayBefore18 = new Date(
         today.getFullYear() - 18,
@@ -526,10 +518,8 @@ describe("SignupForm", () => {
       );
       await user.click(screen.getByTestId("submit-button"));
 
-      // The form should show validation errors
       await waitFor(
         () => {
-          // Check that we get some validation errors (the form should fail validation)
           const errorMessages = screen.getAllByText(
             /must be|Please enter|Invalid|required/i
           );
@@ -618,8 +608,6 @@ describe("SignupForm", () => {
       );
       await user.type(screen.getByTestId("phone-input"), "09123456789");
 
-      // Skip gender selection for now due to Radix UI Select issues in test environment
-      // The form will still validate other fields properly
 
       await user.type(screen.getByTestId("password-input"), "Password1!");
       await user.type(
@@ -641,9 +629,7 @@ describe("SignupForm", () => {
 
       await user.click(screen.getByTestId("submit-button"));
 
-      // The form should show gender validation error since it's required
       await waitFor(() => {
-        // Check that other validations pass and only gender is missing
         expect(
           screen.queryByText("First name must be at least 2 characters")
         ).not.toBeInTheDocument();
@@ -707,10 +693,8 @@ describe("SignupForm", () => {
 
       await user.click(screen.getByTestId("submit-button"));
 
-      // Since gender is required, the form won't submit successfully
-      // But we can test that the form doesn't reset when validation fails
+
       await waitFor(() => {
-        // Form should not reset because validation failed
         expect(screen.getByTestId("first-name-input")).toHaveValue("John");
         expect(screen.getByTestId("last-name-input")).toHaveValue("Doe");
         expect(screen.getByTestId("email-input")).toHaveValue(
@@ -744,7 +728,6 @@ describe("SignupForm", () => {
       );
       await user.type(screen.getByTestId("phone-input"), "09123456789");
 
-      // Skip gender selection due to Radix UI Select issues in test environment
       await user.type(screen.getByTestId("password-input"), "Password1!");
       await user.type(
         screen.getByTestId("confirm-password-input"),
@@ -766,8 +749,6 @@ describe("SignupForm", () => {
       const submitButton = screen.getByTestId("submit-button");
       await user.click(submitButton);
 
-      // The button should show loading state briefly, but since validation fails, it won't stay in loading state
-      // We can test that the button text changes temporarily
       expect(submitButton).toHaveTextContent("Create Account");
     });
 
@@ -775,7 +756,6 @@ describe("SignupForm", () => {
       const user = userEvent.setup();
       render(<SignupForm />);
 
-      // Trigger validation errors
       await user.click(screen.getByTestId("submit-button"));
 
       await waitFor(() => {
@@ -784,7 +764,6 @@ describe("SignupForm", () => {
         ).toBeInTheDocument();
       });
 
-      // Start typing in first name field
       await user.type(screen.getByTestId("first-name-input"), "Jo");
 
       await waitFor(() => {
